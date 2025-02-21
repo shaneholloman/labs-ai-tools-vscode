@@ -2,7 +2,7 @@
   "name": "labs-ai-tools-vscode",
   "displayName": "Labs: AI Tools for VSCode",
   "description": "Run & Debug AI Prompts with Dockerized tools",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "publisher": "docker",
   "repository": {
     "type": "git",
@@ -61,12 +61,13 @@
         "title": "Docker AI: Set Secret Key"
       },
       {
-        "command": "docker.labs-ai-tools-vscode.save-prompt",
-        "title": "Docker AI: Save a prompt"
+        "command": "docker.labs-ai-tools-vscode.registry",
+        "title": "Docker AI: Manage prompt registry"
       },
       {
-        "command": "docker.labs-ai-tools-vscode.delete-prompt",
-        "title": "Docker AI: Delete a saved prompt"
+        "command": "docker.labs-ai-tools-vscode.register",
+        "title": "Docker AI: Register this prompt",
+        "when": "editorLangId == markdown"
       },
       {
         "command": "docker.labs-ai-tools-vscode.run-file-as-prompt",

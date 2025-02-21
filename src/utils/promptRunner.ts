@@ -44,7 +44,7 @@ export const getRunArgs = async (promptRef: string, projectDir: string, username
     ];
 
     const runArgs: string[] = render ? [] : [
-        'vonwig/prompts:latest',
+        'mcp/docker:latest',
         ...(render ? [] : ['run']),
         "--host-dir", projectDir,
         "--user", username,

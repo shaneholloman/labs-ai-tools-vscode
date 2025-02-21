@@ -2,17 +2,15 @@
 import * as vscode from 'vscode'
 import { runPrompt } from './runPrompt';
 import { runHotCommand } from './runHotCommand';
-import { deletePrompt, savePrompt } from './manageSavedPrompts';
 import { setProjectDir } from './setProjectDir';
 import { setThreadId } from './setThreadId';
 import killActivePrompts from './killActivePrompts';
+import { registerOpenPrompt, registerPrompt, showRegistryInput } from '../utils/promptRegistery';
 
-type CTX = { secrets: any }
+type CTX = vscode.ExtensionContext
 
 const commands = (context: CTX) => [
     { id: 'docker.labs-ai-tools-vscode.run-commands', callback: runHotCommand },
-    { id: 'docker.labs-ai-tools-vscode.save-prompt', callback: savePrompt },
-    { id: 'docker.labs-ai-tools-vscode.delete-prompt', callback: deletePrompt },
     { id: 'docker.labs-ai-tools-vscode.run-workspace-as-prompt', callback: () => runPrompt(context.secrets, 'local-dir') },
     { id: 'docker.labs-ai-tools-vscode.run-file-as-prompt', callback: () => runPrompt(context.secrets, 'local-file') },
     { id: 'docker.labs-ai-tools-vscode.run-prompt', callback: () => runPrompt(context.secrets, 'remote') },
@@ -27,6 +25,9 @@ const commands = (context: CTX) => [
         }
     },
     { id: 'docker.labs-ai-tools-vscode.kill-active-prompts', callback: killActivePrompts },
+    { id: 'docker.labs-ai-tools-vscode.register-prompt', callback: registerPrompt },
+    { id: 'docker.labs-ai-tools-vscode.registry', callback: () => showRegistryInput(context) },
+    { id: 'docker.labs-ai-tools-vscode.register', callback: () => registerOpenPrompt(context) },
 ]
 
 export default (context: CTX) => commands(context).map((comm) => vscode.commands.registerCommand(comm.id, comm.callback))

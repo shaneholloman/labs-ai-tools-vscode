@@ -89,17 +89,22 @@ export async function activate(context: vscode.ExtensionContext) {
 	});
 	context.subscriptions.push(setProviderSecretCommand);
 
-	const pullPromptImage = () => {
-		const process = spawn('docker', ['pull', "vonwig/prompts:latest"]);
+	const pullPromptImagePromise = new Promise((resolve, reject) => {
+		const process = spawn('docker', ['pull', "mcp/docker:latest"]);
 		process.stdout.on('data', (data) => {
 			console.error(data.toString());
 		});
 		process.stderr.on('data', (data) => {
 			console.error(data.toString());
 		});
-	}
-
-	pullPromptImage();
+		process.on('close', (code) => {
+			if (code === 0) {
+				resolve(true);
+			} else {
+				reject(new Error('Failed to pull prompt image'));
+			}
+		});
+	});
 
 	const registeredCommands = commands(context)
 
@@ -149,4 +154,5 @@ export async function activate(context: vscode.ExtensionContext) {
 			}
 		)
 	);
+	await pullPromptImagePromise;
 }
